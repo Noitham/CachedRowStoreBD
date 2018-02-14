@@ -13,7 +13,6 @@ import javax.swing.JTextField;
 /**
  * @author Daniel
  */
-
 public class ProductDetailsPanel extends JPanel {
 
     private JLabel idLabel;
@@ -21,7 +20,7 @@ public class ProductDetailsPanel extends JPanel {
     private JLabel descLabel;
     private JLabel priceLabel;
     private JLabel stockLabel;
-    
+
     private JTextField idField;
     private JTextField codeField;
     private JTextField descField;
@@ -39,7 +38,7 @@ public class ProductDetailsPanel extends JPanel {
         descLabel = new JLabel("DESCRIPTION: ");
         priceLabel = new JLabel("PRICE:");
         stockLabel = new JLabel("STOCK: ");
-        
+
         idField = new JTextField("");
         codeField = new JTextField("");
         descField = new JTextField("");
@@ -47,11 +46,16 @@ public class ProductDetailsPanel extends JPanel {
         stockField = new JTextField("");
 
         setLayout(new GridLayout(6, 0));
-        add(idLabel);add(idField);
-        add(codeLabel);add(codeField);
-        add(descLabel);add(descField);
-        add(priceLabel);add(priceField);
-        add(stockLabel);add(stockField);
+        add(idLabel);
+        add(idField);
+        add(codeLabel);
+        add(codeField);
+        add(descLabel);
+        add(descField);
+        add(priceLabel);
+        add(priceField);
+        add(stockLabel);
+        add(stockField);
     }
 
     public JLabel getIdLabel() {
@@ -134,7 +138,4 @@ public class ProductDetailsPanel extends JPanel {
         this.stockField.setText(stockField);
     }
 
-    
-    
-    
 }

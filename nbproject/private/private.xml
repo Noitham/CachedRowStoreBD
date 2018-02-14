@@ -2,6 +2,16 @@
 <project-private xmlns="http://www.netbeans.org/ns/project-private/1">
     <editor-bookmarks xmlns="http://www.netbeans.org/ns/editor-bookmarks/2" lastBookmarkId="0"/>
     <open-files xmlns="http://www.netbeans.org/ns/projectui-open-files/2">
-        <group/>
+        <group>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/persist/SQLInterface.java</file>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/persist/storebd.sql</file>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/model/Store.java</file>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/CachedStoreBDGUI.java</file>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/views/ButtonsPanel.java</file>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/views/StoreMainFrame.java</file>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/views/ProductDetailsPanel.java</file>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/views/ManageProductPanel.java</file>
+            <file>file:/D:/Ciclo/Segundo/M06%20-%20Accés%20a%20dades/CachedStoreBDGUI/src/cachedstorebdgui/views/WelcomePanel.java</file>
+        </group>
     </open-files>
 </project-private>

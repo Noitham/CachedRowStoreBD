@@ -28,23 +28,22 @@ import javax.swing.JOptionPane;
  */
 public class StoreMainFrame extends JFrame implements ActionListener {
 
-    private final Store model;
-    private final Controller controller;
+    private Store model;
+    private Controller controller;
 
     private WelcomePanel welcomePanel;
     private ManageProductPanel managePanel;
-    private ProductDetailsPanel detailsPanel;
 
     private final String aboutMessage;
 
-    List<Product> myProducts = new ArrayList<>();
+    private List<Product> myProducts;
+
+    private int i = 0;
 
     public StoreMainFrame(Controller controller, Store model) {
         this.controller = controller;
         this.model = model;
         aboutMessage = "<html><p>CachedStore GUI Application</p><p>(c) DanielSoft 2017</p></html>";
-        //We load our product list
-        controller.getAllProducts(myProducts);
         initComponents();
     }
 
@@ -120,19 +119,29 @@ public class StoreMainFrame extends JFrame implements ActionListener {
                 case "launchapp":
                     // Shows values panel
                     setManagePanel();
+                    loadData();
+                    break;
+                case "listall":
+                    // Shows values panel
+                    listProducts();
+                    break;
+                case "gonext":
+                    // Next
+                    nextProduct();
+                    break;
+                case "goprev":
+                    // Next
+                    previousProduct();
+                    break;
+                case "gostart":
+                    firstProduct();
+                    break;
+                case "goend":
+                    lastProduct();
                     break;
                 case "about":
                     // About
                     aboutDialogue();
-                    break;
-                case "gostart":
-                    loadData();
-                    break;
-                case "clear":
-                    controller.clear();
-                    break;
-                case "delete":
-                    controller.remove();
                     break;
                 default:
                     break;
@@ -161,28 +170,113 @@ public class StoreMainFrame extends JFrame implements ActionListener {
         JOptionPane.showMessageDialog(this, aboutMessage);
     }
 
+    /**
+     * Sets manage panel
+     */
     public void setManagePanel() {
 
         Container pane = this.getContentPane();
         pane.setLayout(new BorderLayout());
-        managePanel = new ManageProductPanel(model, controller, this);
+        managePanel = new ManageProductPanel(controller, this);
         pane.add(managePanel, BorderLayout.CENTER);
 
         this.setContentPane(managePanel);
         this.validate();
     }
 
+    /**
+     * Calls controller methis listArticles, which will load our database
+     * products
+     */
     private void loadData() {
 
-        for (int i = 1; i < myProducts.size(); i++) {
-            for (Product p : myProducts) {
-                detailsPanel.setIdField(String.valueOf(p.getId()));
-                detailsPanel.setCodeField(p.getCode());
-                detailsPanel.setDescField(p.getName());
-                detailsPanel.setPriceField(String.valueOf(p.getPrice()));
-                detailsPanel.setStockField(String.valueOf(p.getStock()));
-            }
+        myProducts = controller.listArticles();
+
+    }
+
+    /**
+     * We list the loaded products in our panel
+     */
+    private void listProducts() {
+
+        managePanel.getDetailsPanel().setIdField(String.valueOf(myProducts.get(0).getId()));
+        managePanel.getDetailsPanel().setCodeField(myProducts.get(0).getCode());
+        managePanel.getDetailsPanel().setDescField(myProducts.get(0).getName());
+        managePanel.getDetailsPanel().setPriceField(String.valueOf(myProducts.get(0).getPrice()));
+        managePanel.getDetailsPanel().setStockField(String.valueOf(myProducts.get(0).getStock()));
+
+    }
+
+    /**
+     * Changes the shown product to the next one
+     */
+    private void nextProduct() {
+
+        i = i + 1;
+        try {
+            managePanel.getDetailsPanel().setIdField(String.valueOf(myProducts.get(i).getId()));
+            managePanel.getDetailsPanel().setCodeField(myProducts.get(i).getCode());
+            managePanel.getDetailsPanel().setDescField(myProducts.get(i).getName());
+            managePanel.getDetailsPanel().setPriceField(String.valueOf(myProducts.get(i).getPrice()));
+            managePanel.getDetailsPanel().setStockField(String.valueOf(myProducts.get(i).getStock()));
+
+        } catch (IndexOutOfBoundsException ex) {
+            i = myProducts.size() - 1;
+            managePanel.getDetailsPanel().setIdField(String.valueOf(myProducts.get(i).getId()));
+            managePanel.getDetailsPanel().setCodeField(myProducts.get(i).getCode());
+            managePanel.getDetailsPanel().setDescField(myProducts.get(i).getName());
+            managePanel.getDetailsPanel().setPriceField(String.valueOf(myProducts.get(i).getPrice()));
+            managePanel.getDetailsPanel().setStockField(String.valueOf(myProducts.get(i).getStock()));
+
         }
+
+    }
+
+    /**
+     * Changes the shown product to the previous
+     */
+    private void previousProduct() {
+
+        i = i - 1;
+        try {
+
+            managePanel.getDetailsPanel().setIdField(String.valueOf(myProducts.get(i).getId()));
+            managePanel.getDetailsPanel().setCodeField(myProducts.get(i).getCode());
+            managePanel.getDetailsPanel().setDescField(myProducts.get(i).getName());
+            managePanel.getDetailsPanel().setPriceField(String.valueOf(myProducts.get(i).getPrice()));
+            managePanel.getDetailsPanel().setStockField(String.valueOf(myProducts.get(i).getStock()));
+
+        } catch (IndexOutOfBoundsException ex) {
+            i = i + 1;
+            managePanel.getDetailsPanel().setIdField(String.valueOf(myProducts.get(i).getId()));
+            managePanel.getDetailsPanel().setCodeField(myProducts.get(i).getCode());
+            managePanel.getDetailsPanel().setDescField(myProducts.get(i).getName());
+            managePanel.getDetailsPanel().setPriceField(String.valueOf(myProducts.get(i).getPrice()));
+            managePanel.getDetailsPanel().setStockField(String.valueOf(myProducts.get(i).getStock()));
+
+        }
+
+    }
+
+    private void firstProduct() {
+
+        managePanel.getDetailsPanel().setIdField(String.valueOf(myProducts.get(0).getId()));
+        managePanel.getDetailsPanel().setCodeField(myProducts.get(0).getCode());
+        managePanel.getDetailsPanel().setDescField(myProducts.get(0).getName());
+        managePanel.getDetailsPanel().setPriceField(String.valueOf(myProducts.get(0).getPrice()));
+        managePanel.getDetailsPanel().setStockField(String.valueOf(myProducts.get(0).getStock()));
+
+    }
+
+    private void lastProduct() {
+
+        int size = myProducts.size() - 1;
+
+        managePanel.getDetailsPanel().setIdField(String.valueOf(myProducts.get(size).getId()));
+        managePanel.getDetailsPanel().setCodeField(myProducts.get(size).getCode());
+        managePanel.getDetailsPanel().setDescField(myProducts.get(size).getName());
+        managePanel.getDetailsPanel().setPriceField(String.valueOf(myProducts.get(size).getPrice()));
+        managePanel.getDetailsPanel().setStockField(String.valueOf(myProducts.get(size).getStock()));
 
     }
 
@@ -192,14 +286,6 @@ public class StoreMainFrame extends JFrame implements ActionListener {
 
     public String displayInputDialog(String message) {
         return JOptionPane.showInputDialog(this, message);
-    }
-
-    public void displayProductTable(List<Product> data) {
-        for (Product product : data) {
-            System.out.println(product.toString());
-        }
-        System.out.println(data.size() + " products found");
-
     }
 
 }

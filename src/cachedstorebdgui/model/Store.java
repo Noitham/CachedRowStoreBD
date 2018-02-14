@@ -5,14 +5,18 @@
  */
 package cachedstorebdgui.model;
 
+import cachedstorebdgui.persist.SQLInterface;
+import com.sun.rowset.CachedRowSetImpl;
+import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 
 /**
  * @author dmora
  */
 public class Store {
 
-    private final ArrayList<Product> products; //List of products
+    private ArrayList<Product> products; //List of products
 
     //costructor
     public Store() {
@@ -24,17 +28,17 @@ public class Store {
         return products;
     }
 
+    /**
+     * Gets number of products
+     *
+     * @return products.size()
+     */
     public int getNumProducts() {
         return products.size();
     }
 
-    //methods
-    //add new product
-    //modify a product
-    //delete a product
-    //find a product
     /**
-     * Gets element of position Index
+     * Gets element of position index
      *
      * @param index position of element to retrieve
      * @return element at position index or null if not exists.
@@ -43,91 +47,6 @@ public class Store {
 
         return products.get(index);
 
-    }
-
-    /**
-     * Adds a new product to the store It prevents writing if list is full. It
-     * avoids duplicates
-     *
-     * @param product to add.
-     * @return true if product has been successfully added false otherwise
-     */
-    public boolean add(Product product) {
-
-        return false;
-    }
-
-    /**
-     * Search p in the list.
-     *
-     * @param p is the product to find
-     * @return the product found or null if not found.
-     */
-    public Product find(Product p) {
-
-        Product found = null;
-
-        ArrayList<Product> originalData = retrieveData();
-
-        for (int i = 0; i < originalData.size() - 1; i++) {
-            if (originalData.get(i).equals(p)) {
-                found = originalData.get(i);
-                break;
-            }
-        }
-
-        return found;
-
-    }
-
-    /**
-     * Search p in the list.
-     *
-     * @param code is the product to find
-     */
-    public void searchByCode(String code) {
-
-        ArrayList<Product> originalData = retrieveData();
-
-        for (int i = 0; i < originalData.size() - 1; i++) {
-            if (originalData.get(i).getCode().equals(code)) {
-                products.add(originalData.get(i));
-            }
-        }
-
-    }
-
-    /**
-     * Search products with the given price.
-     *
-     * @param price to find
-     */
-    public void findByPrice(double price) {
-
-        ArrayList<Product> originalData = retrieveData();
-
-        for (int i = 0; i < originalData.size() - 1; i++) {
-            if (originalData.get(i).getPrice() == price) {
-                products.add(originalData.get(i));
-            }
-        }
-    }
-
-    /**
-     * removes a product from the store
-     *
-     * @param product to remove
-     * @return true if product has been removed, false otherwise.
-     */
-    public boolean remove(Product product) {
-
-        ArrayList<Product> originalData = retrieveData();
-
-        boolean b = false;
-        if (product != null) {
-            b = products.remove(originalData);
-        }
-        return b;
     }
 
     /**
@@ -141,33 +60,53 @@ public class Store {
         return products.indexOf(product);
     }
 
-    public void modify(Product product, String code, String name, double price) {
+    /**
+     * Makes a query which will return our products from database.
+     *
+     * @return products list
+     */
+    public List<Product> getAllProducts() {
 
-        if (product != null) {
-            product.setCode(code);
-            product.setName(name);
-            product.setPrice(price);
+        // create SQLInterface object
+        SQLInterface iface = new SQLInterface("storeusr", "storepsw");
+
+        // Execute query
+        if (!iface.execQuery("SELECT * FROM products")) {
+            System.exit(1);
+        }
+        // create CachedRowSet and output
+        // data to terminal
+        try {
+            CachedRowSetImpl crs = new CachedRowSetImpl();
+            crs = iface.getRowSet();
+
+            while (crs.next()) {
+
+                System.out.println("ID:" + crs.getString(1)
+                        + ", CODE: " + crs.getString(2)
+                        + ", NAME:" + crs.getString(3)
+                        + ", PRICE: " + crs.getString(4)
+                        + ", STOCK: " + crs.getString(5));
+
+                String id, code, name, price, stock;
+
+                id = crs.getString(1);
+                code = crs.getString(2);
+                name = crs.getString(3);
+                price = crs.getString(4);
+                stock = crs.getString(5);
+
+                Product p = (new Product(Long.parseLong(id), code, name, Double.parseDouble(price), Integer.parseInt(stock)));
+
+                products.add(p);
+            }
+
+        } catch (SQLException se) {
+            System.out.println(se.getMessage());
+            products = null;
         }
 
-    }
-
-    public ArrayList<Product> retrieveData() {
-        ArrayList<Product> originalData = new ArrayList<>();
-
-        originalData.add(new Product("aaa", "aaa", 111, 3));
-        originalData.add(new Product("bbb", "bbb", 222, 1));
-        originalData.add(new Product("ccc", "ccc", 333, 5));
-        originalData.add(new Product("ddd", "ddd", 444, 9));
-
-        return originalData;
-    }
-
-    public void loadData() {
-        products.addAll(retrieveData());
-    }
-
-    public void clearData() {
-        products.clear();
+        return products;
     }
 
 }

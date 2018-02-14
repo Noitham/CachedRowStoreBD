@@ -16,31 +16,36 @@ import javax.swing.JPanel;
  * @author alumne
  */
 public class ManageProductPanel extends JPanel {
-    
+
     private ProductDetailsPanel detailsPanel;
-    private ManageOptionsPanel buttonsPanel; 
-    
-    private final Store model;
+    private ButtonsPanel buttonsPanel;
+
     private final Controller controller;
     private final ActionListener al;
 
-    public ManageProductPanel(Store model, Controller controller, ActionListener al) {
+    public ManageProductPanel(Controller controller, ActionListener al) {
         this.al = al;
-        this.model = model;
         this.controller = controller;
-        //model.loadData();
         initComponents();
     }
 
     private void initComponents() {
-        
+
         setLayout(new BorderLayout());
-        
+
         detailsPanel = new ProductDetailsPanel();
-        buttonsPanel = new ManageOptionsPanel(al);
+        buttonsPanel = new ButtonsPanel(al);
 
         add(detailsPanel, BorderLayout.CENTER);
         add(buttonsPanel, BorderLayout.SOUTH);
+    }
+
+    public ProductDetailsPanel getDetailsPanel() {
+        return detailsPanel;
+    }
+
+    public void setDetailsPanel(ProductDetailsPanel detailsPanel) {
+        this.detailsPanel = detailsPanel;
     }
 
 }

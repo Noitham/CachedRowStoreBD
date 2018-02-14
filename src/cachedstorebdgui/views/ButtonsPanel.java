@@ -8,18 +8,15 @@ package cachedstorebdgui.views;
 import java.awt.GridLayout;
 import java.awt.event.ActionListener;
 import javax.swing.JButton;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
  * @author dmora
  */
-class ManageOptionsPanel extends JPanel {
+class ButtonsPanel extends JPanel {
 
-    
     private final ActionListener al;
-    
+
     private JButton startButton;
     private JButton previusButton;
     private JButton nextButton;
@@ -29,7 +26,7 @@ class ManageOptionsPanel extends JPanel {
     private JButton deleteButton;
     private JButton clearButton;
 
-    public ManageOptionsPanel(ActionListener al) {
+    public ButtonsPanel(ActionListener al) {
         this.al = al;
         initComponents();
     }
@@ -62,8 +59,14 @@ class ManageOptionsPanel extends JPanel {
         clearButton.addActionListener(al);
 
         setLayout(new GridLayout(1, 8));
-        add(startButton);add(previusButton);add(nextButton);add(endButton);
-        add(insertButton);add(updateButton);add(deleteButton);add(clearButton);
+        add(startButton);
+        add(previusButton);
+        add(nextButton);
+        add(endButton);
+        add(insertButton);
+        add(updateButton);
+        add(deleteButton);
+        add(clearButton);
 
     }
 

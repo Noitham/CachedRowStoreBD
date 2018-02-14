@@ -7,7 +7,6 @@ import javax.swing.JLabel;
 import javax.swing.JPanel;
 
 /**
- *
  * @author Daniel
  */
 class WelcomePanel extends JPanel {
